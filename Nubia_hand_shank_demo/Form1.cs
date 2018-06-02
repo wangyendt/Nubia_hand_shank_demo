@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using CCWin;
 using Nubia_hand_shank_demo.Properties;
+using System.Speech.Synthesis;
 
 namespace Nubia_hand_shank_demo
 {
@@ -21,6 +22,7 @@ namespace Nubia_hand_shank_demo
         private int sigma_tsunami = 200;
         private StringBuilder _sb;
         private bool _isFirstFrame;
+        //private SpeechSynthesizer voice = new SpeechSynthesizer();
 
         public Form1()
         {
@@ -29,6 +31,8 @@ namespace Nubia_hand_shank_demo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            CheckForIllegalCrossThreadCalls = false;
+            //voice.Rate = 10;
         }
 
         private void skbtnStart_Click(object sender, EventArgs e)
@@ -71,16 +75,16 @@ namespace Nubia_hand_shank_demo
                 int[] rawdata = data[1] as int[];
                 int[] forcesig = data[2] as int[];
                 int[] touch_event = data[3] as int[];
-                ShowLogUtils.ShowLog(skrtbLog,
-                    rawdata[0] + ", " +
-                    rawdata[1] + ", " +
-                    rawdata[2] + ", " +
-                    rawdata[3] + ", " +
-                    forcesig[0] + ", " +
-                    forcesig[1] + ", " +
-                    forcesig[2] + ", " +
-                    forcesig[3] + ", "
-                    );
+                //ShowLogUtils.ShowLog(skrtbLog,
+                //    rawdata[0] + ", " +
+                //    rawdata[1] + ", " +
+                //    rawdata[2] + ", " +
+                //    rawdata[3] + ", " +
+                //    forcesig[0] + ", " +
+                //    forcesig[1] + ", " +
+                //    forcesig[2] + ", " +
+                //    forcesig[3] + ", "
+                //    );
                 Array.Copy(rawdata, rawdata_cur, rawdata.Length);
                 calc_baseline();
                 save_rawdata_and_baseline();
@@ -92,6 +96,7 @@ namespace Nubia_hand_shank_demo
                     {
                         skpbHandShank.BackgroundImage = Resources.HandShank2;
                         System.Media.SystemSounds.Hand.Play();
+                        //voice.SpeakAsync("b!");
                     }));
                 }
                 else
@@ -99,6 +104,7 @@ namespace Nubia_hand_shank_demo
                     Invoke(new EventHandler(delegate
                     {
                         skpbHandShank.BackgroundImage = Resources.HandShank;
+                        //voice.SpeakAsyncCancelAll();
                     }));
                 }
             }

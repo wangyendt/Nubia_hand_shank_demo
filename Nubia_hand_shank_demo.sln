@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nubia_hand_shank_demo", "Nubia_hand_shank_demo\Nubia_hand_shank_demo.csproj", "{B0549776-7DF8-4DDB-9158-B0E74F37D8FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0549776-7DF8-4DDB-9158-B0E74F37D8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0549776-7DF8-4DDB-9158-B0E74F37D8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0549776-7DF8-4DDB-9158-B0E74F37D8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0549776-7DF8-4DDB-9158-B0E74F37D8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A878C58D-74F3-4917-A0B9-B0A7BAA358D5}
+	EndGlobalSection
+EndGlobal

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Nubia_hand_shank_demo
 {
@@ -217,6 +218,43 @@ namespace Nubia_hand_shank_demo
             DebugModeClean();
 
             return new object[] { threshold, rawdata, forceSig, touch_event };
+        }
+
+        public static int IICReadThreshold()
+        {
+            byte[] IIcWriteBuffer = new byte[256];
+            byte[] IIcReadBuffer = new byte[256];
+
+            IIcWriteBuffer[0] = 0xA0;
+            IIcWriteBuffer[1] = 0xD5;
+
+            uint writeLen = 2;
+            uint readLen = 1;
+
+            IICWriteRead(0, writeLen, MyConvertor.byteArrToUint(IIcWriteBuffer), readLen, MyConvertor.byteArrToUint(IIcReadBuffer));
+
+            return IIcReadBuffer[0];
+        }
+        public static bool IICWriteThreshold(int thd)
+        {
+            byte[] IIcWriteBuffer = new byte[256];
+            byte[] IIcReadBuffer = new byte[256];
+
+            IIcWriteBuffer[0] = 0xA0;
+            IIcWriteBuffer[1] = 0xD5;
+            IIcWriteBuffer[2] = (byte)thd;
+
+            uint writeLen = 3;
+            uint readLen = 1;
+            int max_count = 5;
+
+            do
+            {
+                IICWriteRead(0, writeLen, MyConvertor.byteArrToUint(IIcWriteBuffer), readLen,
+                    MyConvertor.byteArrToUint(IIcReadBuffer));
+            } while (IIcReadBuffer[0] != IIcWriteBuffer[2] && max_count-- != 0);
+
+            return IIcReadBuffer[0] == IIcWriteBuffer[2];
         }
 
         /// <summary>

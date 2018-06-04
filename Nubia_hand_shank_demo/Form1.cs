@@ -37,6 +37,16 @@ namespace Nubia_hand_shank_demo
         {
             CheckForIllegalCrossThreadCalls = false;
             //voice.Rate = 10;
+            load_fw_parameters();
+        }
+
+        private void load_fw_parameters()
+        {
+            IICoperation.IICOpen(false);
+            int threshold = IICoperation.IICReadThreshold();
+            IICoperation.IICClose(true);
+            sktbThd.Text = threshold.ToString();
+            ShowLogUtils.ShowLog(skrtbLog, "Threshold read from fw is " + threshold);
         }
 
         private void skbtnStart_Click(object sender, EventArgs e)
@@ -45,6 +55,8 @@ namespace Nubia_hand_shank_demo
             {
                 skbtnStart.Text = "Disable";
                 skrtbLog.Enabled = false;
+                sktbThd.Enabled = false;
+                skbtnSetThd.Enabled = false;
                 _stop_read = false;
                 _isFirstFrame = true;
                 _touch_times = 0;
@@ -65,6 +77,8 @@ namespace Nubia_hand_shank_demo
                     IICoperation.IICClose(true);
                     skbtnStart.Text = "Activate";
                     skrtbLog.Enabled = true;
+                    sktbThd.Enabled = true;
+                    skbtnSetThd.Enabled = true;
                 }
                 save_sb_to_file();
                 call_python_draw_figure();
@@ -196,6 +210,41 @@ namespace Nubia_hand_shank_demo
                     _thrdReadFWSignal = null;
                     IICoperation.IICClose(true);
                 }
+            }
+        }
+
+        private void skbtnSetThd_Click(object sender, EventArgs e)
+        {
+            int thd;
+            try
+            {
+                thd = int.Parse(sktbThd.Text);
+                thd = Math.Max(Math.Min(thd, 255), 1);
+                sktbThd.Text = thd.ToString();
+            }
+            catch
+            {
+                ShowLogUtils.ShowLog(skrtbLog, "Threshold input error.");
+                return;
+            }
+            try
+            {
+                IICoperation.IICOpen(false);
+                bool bSucc = IICoperation.IICWriteThreshold(thd);
+                IICoperation.IICClose(true);
+                if (bSucc)
+                {
+                    ShowLogUtils.ShowLog(skrtbLog, "Threshold " + thd + " is written successfully.");
+                }
+                else
+                {
+                    ShowLogUtils.ShowLog(skrtbLog, "Write threshold failed.");
+                }
+            }
+            catch
+            {
+                ShowLogUtils.ShowLog(skrtbLog, "Write threshold error.");
+                //return;
             }
         }
     }

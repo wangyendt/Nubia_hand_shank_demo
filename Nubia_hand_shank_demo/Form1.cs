@@ -23,6 +23,10 @@ namespace Nubia_hand_shank_demo
         private StringBuilder _sb;
         private bool _isFirstFrame;
         //private SpeechSynthesizer voice = new SpeechSynthesizer();
+        private int _touch_times = 0;
+        private DateTime _dtStart;
+        private DateTime _dtEnd;
+        private int _lastEvent = -1;
 
         public Form1()
         {
@@ -43,9 +47,11 @@ namespace Nubia_hand_shank_demo
                 skrtbLog.Enabled = false;
                 _stop_read = false;
                 _isFirstFrame = true;
+                _touch_times = 0;
                 IICoperation.IICOpen(false);
                 IICoperation.SetIICSpeed(false);
                 _sb = new StringBuilder();
+                ShowLogUtils.ShowLog(skrtbLog, "Start detecting!");
                 _thrdReadFWSignal = new Thread(read_data) { IsBackground = true };
                 _thrdReadFWSignal.Start();
             }
@@ -62,6 +68,10 @@ namespace Nubia_hand_shank_demo
                 }
                 save_sb_to_file();
                 call_python_draw_figure();
+                ShowLogUtils.ShowLog(skrtbLog, "Stop detecting!");
+                ShowLogUtils.ShowLog(skrtbLog, "共检测到按压" + _touch_times + "次");
+                ShowLogUtils.ShowLog(skrtbLog, "共计按压时间" + (_dtEnd - _dtStart).TotalMilliseconds.ToString("0") + "ms");
+                ShowLogUtils.ShowLog(skrtbLog, "平均按压速率为" + (1000 * _touch_times / (_dtEnd - _dtStart).TotalMilliseconds).ToString("0.00") + "次/s");
             }
         }
 
@@ -95,8 +105,17 @@ namespace Nubia_hand_shank_demo
                     Invoke(new EventHandler(delegate
                     {
                         skpbHandShank.BackgroundImage = Resources.HandShank2;
-                        System.Media.SystemSounds.Hand.Play();
-                        //voice.SpeakAsync("b!");
+                        //System.Media.SystemSounds.Hand.Play();
+                        //voice.SpeakAsync("fuck!");
+                        if (_lastEvent == 0)
+                        {
+                            _touch_times++;
+                            if (_touch_times == 1)
+                            {
+                                _dtStart = DateTime.Now;
+                            }
+                            ShowLogUtils.ShowLog(skrtbLog, "检测到按压, 当前按压第" + _touch_times + "次");
+                        }
                     }));
                 }
                 else
@@ -105,8 +124,13 @@ namespace Nubia_hand_shank_demo
                     {
                         skpbHandShank.BackgroundImage = Resources.HandShank;
                         //voice.SpeakAsyncCancelAll();
+                        if (_lastEvent == 1)
+                        {
+                            _dtEnd = DateTime.Now;
+                        }
                     }));
                 }
+                _lastEvent = touch_event[0];
             }
         }
 
@@ -120,11 +144,11 @@ namespace Nubia_hand_shank_demo
                 }
                 else
                 {
-                    baseline_cur[i] = (int) (baseline_last[i] +
+                    baseline_cur[i] = (int)(baseline_last[i] +
                                              (rawdata_cur[i] - rawdata_last[i]) *
                                              Math.Exp(-Math.Pow(rawdata_cur[i] - rawdata_last[i], 2) / sigma_wave) +
                                              (rawdata_last[i] - baseline_last[i]) *
-                                             Math.Exp(-Math.Pow(rawdata_last[i] - baseline_last[i], 2) /sigma_tsunami));
+                                             Math.Exp(-Math.Pow(rawdata_last[i] - baseline_last[i], 2) / sigma_tsunami));
                 }
             }
             _isFirstFrame = false;

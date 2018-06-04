@@ -31,10 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.skinSplitContainer1 = new CCWin.SkinControl.SkinSplitContainer();
+            this.skbtnStart = new CCWin.SkinControl.SkinButton();
             this.skinSplitContainer2 = new CCWin.SkinControl.SkinSplitContainer();
             this.skpbHandShank = new CCWin.SkinControl.SkinPictureBox();
             this.skrtbLog = new CCWin.SkinControl.SkinChatRichTextBox();
-            this.skbtnStart = new CCWin.SkinControl.SkinButton();
             ((System.ComponentModel.ISupportInitialize)(this.skinSplitContainer1)).BeginInit();
             this.skinSplitContainer1.Panel1.SuspendLayout();
             this.skinSplitContainer1.Panel2.SuspendLayout();
@@ -64,6 +64,21 @@
             this.skinSplitContainer1.SplitterDistance = 280;
             this.skinSplitContainer1.SplitterWidth = 10;
             this.skinSplitContainer1.TabIndex = 0;
+            // 
+            // skbtnStart
+            // 
+            this.skbtnStart.BackColor = System.Drawing.Color.Transparent;
+            this.skbtnStart.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skbtnStart.DownBack = null;
+            this.skbtnStart.Location = new System.Drawing.Point(54, 31);
+            this.skbtnStart.MouseBack = null;
+            this.skbtnStart.Name = "skbtnStart";
+            this.skbtnStart.NormlBack = null;
+            this.skbtnStart.Size = new System.Drawing.Size(168, 73);
+            this.skbtnStart.TabIndex = 0;
+            this.skbtnStart.Text = "Activate";
+            this.skbtnStart.UseVisualStyleBackColor = false;
+            this.skbtnStart.Click += new System.EventHandler(this.skbtnStart_Click);
             // 
             // skinSplitContainer2
             // 
@@ -109,21 +124,6 @@
             this.skrtbLog.TabIndex = 0;
             this.skrtbLog.Text = "";
             // 
-            // skbtnStart
-            // 
-            this.skbtnStart.BackColor = System.Drawing.Color.Transparent;
-            this.skbtnStart.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skbtnStart.DownBack = null;
-            this.skbtnStart.Location = new System.Drawing.Point(54, 31);
-            this.skbtnStart.MouseBack = null;
-            this.skbtnStart.Name = "skbtnStart";
-            this.skbtnStart.NormlBack = null;
-            this.skbtnStart.Size = new System.Drawing.Size(168, 73);
-            this.skbtnStart.TabIndex = 0;
-            this.skbtnStart.Text = "Activate";
-            this.skbtnStart.UseVisualStyleBackColor = false;
-            this.skbtnStart.Click += new System.EventHandler(this.skbtnStart_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -133,7 +133,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NDT Hand Shank Demo, y.wang@newdegreetech.com, v0.1";
+            this.Text = "NDT Hand Shank Demo, y.wang@newdegreetech.com, v0.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.skinSplitContainer1.Panel1.ResumeLayout(false);
